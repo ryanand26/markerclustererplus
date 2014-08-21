@@ -160,7 +160,7 @@ ClusterIcon.prototype.onAdd = function () {
         // There is a fix for Issue 170 here:
         setTimeout(function () {
           mc.getMap().fitBounds(theBounds);
-          // Don't zoom beyond the max zoom level
+          // Don't zoom beyond the max zoom on click level
           if (mz !== null && (mc.getMap().getZoom() > mz)) {
             mc.getMap().setZoom(mz + 1);
           }
@@ -249,12 +249,15 @@ ClusterIcon.prototype.show = function () {
     var pos = this.getPosFromLatLng_(this.center_);
     this.div_.style.cssText = this.createCss(pos);
 
-    img = "<img src='" + this.url_ + "' style='position: absolute; top: " + spriteV + "px; left: " + spriteH + "px; ";
-    if (!this.cluster_.getMarkerClusterer().enableRetinaIcons_) {
-      img += "clip: rect(" + (-1 * spriteV) + "px, " + ((-1 * spriteH) + this.width_) + "px, " +
-          ((-1 * spriteV) + this.height_) + "px, " + (-1 * spriteH) + "px);";
+    //Only add img if the path is defined.
+    if (this.url_ && this.url_ !== '') {
+      img = "<img src='" + this.url_ + "' style='position: absolute; top: " + spriteV + "px; left: " + spriteH + "px; ";
+      if (!this.cluster_.getMarkerClusterer().enableRetinaIcons_) {
+        img += "clip: rect(" + (-1 * spriteV) + "px, " + ((-1 * spriteH) + this.width_) + "px, " +
+            ((-1 * spriteV) + this.height_) + "px, " + (-1 * spriteH) + "px);";
+      }
+      img += "'>";
     }
-    img += "'>";
     
     this.div_.innerHTML = img + "<div style='" +
         "position: absolute;" +
