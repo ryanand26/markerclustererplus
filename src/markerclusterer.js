@@ -138,9 +138,10 @@ ClusterIcon.prototype.onAdd = function () {
   google.maps.event.addDomListener(this.div_, "click", function (e) {
     cMouseDownInCluster = false;
     if (!cDraggingMapByCluster) {
-      var theBounds;
-      var mz;
-      var mc = cClusterIcon.cluster_.getMarkerClusterer();
+      var theBounds,
+          mc = cClusterIcon.cluster_.getMarkerClusterer(),
+          oldZoomLevel, newZoomLevel, mz;
+
       /**
        * This event is fired when a cluster marker is clicked.
        * @name MarkerClusterer#click
@@ -153,16 +154,27 @@ ClusterIcon.prototype.onAdd = function () {
       // The default click handler follows. Disable it by setting
       // the zoomOnClick property to false.
       if (mc.getZoomOnClick()) {
-        // Zoom into the cluster.
+        oldZoomLevel = mc.getMap().getZoom();
         mz = mc.getMaxZoomOnClick();
+
+        // Zoom into the cluster.
         theBounds = cClusterIcon.cluster_.getBounds();
         mc.getMap().fitBounds(theBounds);
-        // There is a fix for Issue 170 here:
+
+        // Check map state
         setTimeout(function () {
+          newZoomLevel = mc.getMap().getZoom();
+
+          // There is a fix for Issue 170 here:
           mc.getMap().fitBounds(theBounds);
+
           // Don't zoom beyond the max zoom on click level
-          if (mz !== null && (mc.getMap().getZoom() > mz)) {
+          if (mz !== null && (newZoomLevel > mz)) {
             mc.getMap().setZoom(mz + 1);
+          }
+          //ensure that a zoom has occured, on small screens it often doesnt as spacing is added
+          else if (oldZoomLevel >= newZoomLevel) {
+            mc.getMap().setZoom(newZoomLevel + 1);
           }
         }, 100);
       }
