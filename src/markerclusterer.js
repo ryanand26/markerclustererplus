@@ -154,7 +154,7 @@ ClusterIcon.prototype.onAdd = function () {
       // the zoomOnClick property to false.
       if (mc.getZoomOnClick()) {
         // Zoom into the cluster.
-        mz = mc.getMaxZoom();
+        mz = mc.getMaxZoomOnClick();
         theBounds = cClusterIcon.cluster_.getBounds();
         mc.getMap().fitBounds(theBounds);
         // There is a fix for Issue 170 here:
@@ -248,12 +248,14 @@ ClusterIcon.prototype.show = function () {
     var spriteV = parseInt(bp[1].trim(), 10);
     var pos = this.getPosFromLatLng_(this.center_);
     this.div_.style.cssText = this.createCss(pos);
+
     img = "<img src='" + this.url_ + "' style='position: absolute; top: " + spriteV + "px; left: " + spriteH + "px; ";
     if (!this.cluster_.getMarkerClusterer().enableRetinaIcons_) {
       img += "clip: rect(" + (-1 * spriteV) + "px, " + ((-1 * spriteH) + this.width_) + "px, " +
           ((-1 * spriteV) + this.height_) + "px, " + (-1 * spriteH) + "px);";
     }
     img += "'>";
+    
     this.div_.innerHTML = img + "<div style='" +
         "position: absolute;" +
         "top: " + this.anchorText_[0] + "px;" +
@@ -675,6 +677,7 @@ function MarkerClusterer(map, opt_markers, opt_options) {
   this.gridSize_ = opt_options.gridSize || 60;
   this.minClusterSize_ = opt_options.minimumClusterSize || 2;
   this.maxZoom_ = opt_options.maxZoom || null;
+  this.maxZoomOnClick_ = opt_options.maxZoomOnClick_ || this.maxZoom_;
   this.styles_ = opt_options.styles || [];
   this.title_ = opt_options.title || "";
   this.zoomOnClick_ = true;
@@ -882,6 +885,24 @@ MarkerClusterer.prototype.setMaxZoom = function (maxZoom) {
   this.maxZoom_ = maxZoom;
 };
 
+/**
+ *  Returns the value of the <code>maxZoomOnClick</code> property.
+ *
+ *  @return {number} The maximum zoom level that the cluster click action can set.
+ */
+MarkerClusterer.prototype.getMaxZoomOnClick = function () {
+  return this.maxZoomOnClick_;
+};
+
+
+/**
+ *  Sets the value of the <code>maxZoomOnClick</code> property.
+ *
+ *  @param {number} maxZoomOnClick The maximum zoom level that the cluster click action can set.
+ */
+MarkerClusterer.prototype.setMaxZoomOnClick = function (maxZoomOnClick) {
+  this.maxZoomOnClick_ = maxZoomOnClick;
+};
 
 /**
  *  Returns the value of the <code>styles</code> property.

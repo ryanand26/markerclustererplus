@@ -14,3 +14,4 @@ Install with [bower](http://bower.io).
 ### Additional Features
 
 * hideLabel option - removes numbers on the clusters
+* maxZoomOnClick option - the maxZoom option affects the click action of the clusters, this option allows us to make that independant. Defaults to maxZoom.
