@@ -16,4 +16,5 @@ Install with [bower](http://bower.io).
 * hideLabel option - removes numbers on the clusters
 * Ensure cluster click action causes an increase in the zoom level
 * maxZoomOnClick option - the maxZoom option affects the click action of the clusters, this option allows us to make that independant. Defaults to maxZoom
+* Allow the zoomOnClick option to be a function. Return true or false from that function to enable/disabled the default action
 * Image path is optional

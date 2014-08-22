@@ -153,7 +153,7 @@ ClusterIcon.prototype.onAdd = function () {
 
       // The default click handler follows. Disable it by setting
       // the zoomOnClick property to false.
-      if (mc.getZoomOnClick()) {
+      if (mc.getZoomOnClick() === true) {
         oldZoomLevel = mc.getMap().getZoom();
         mz = mc.getMaxZoomOnClick();
 
@@ -962,9 +962,12 @@ MarkerClusterer.prototype.setTitle = function (title) {
 /**
  * Returns the value of the <code>zoomOnClick</code> property.
  *
- * @return {boolean} True if zoomOnClick property is set.
+ * @return {boolean} True to use default zoomOnClick action.
  */
 MarkerClusterer.prototype.getZoomOnClick = function () {
+  if (typeof this.zoomOnClick_ === "function") {
+    return this.zoomOnClick_(this);
+  }
   return this.zoomOnClick_;
 };
 
