@@ -1,4 +1,4 @@
-/**
+/**!
  * @name MarkerClustererPlus for Google Maps V3
  * @version 2.1.1 [November 4, 2013]
  * @author Gary Little
@@ -21,7 +21,7 @@
  *  deprecated. The new name is <code>click</code>, so please change your application code now.
  */
 
-/**
+/**!
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
